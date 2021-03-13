@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Abel Souza Costa Junior <abelsouzacosta@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "nodemon src/server.js"
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
@@ -15,7 +18,8 @@
     "@commitlint/config-conventional": "^12.0.1",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "3.3.0",
-    "husky": "4"
+    "husky": "4",
+    "nodemon": "^2.0.7"
   },
   "config": {
     "commitizen": {
