@@ -4,7 +4,16 @@ const app = express();
 
 const router = require('./routes/routes');
 
+const db = require('./database/index');
+
 app.use(express.json());
 app.use(router);
+
+try {
+  db.authenticate();
+  console.log(`Authenticated to database`);
+} catch (err) {
+  console.log(`${err}`);
+}
 
 module.exports = app;
