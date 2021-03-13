@@ -1,0 +1,12 @@
+{
+  "name": "simple-library",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Abel Souza Costa Junior <abelsouzacosta@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@commitlint/cli": "^12.0.1",
+    "@commitlint/config-conventional": "^12.0.1",
+    "husky": "4"
+  }
+}
