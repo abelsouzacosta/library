@@ -4,6 +4,11 @@
   "main": "index.js",
   "author": "Abel Souza Costa Junior <abelsouzacosta@gmail.com>",
   "license": "MIT",
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "devDependencies": {
     "@commitlint/cli": "^12.0.1",
     "@commitlint/config-conventional": "^12.0.1",
