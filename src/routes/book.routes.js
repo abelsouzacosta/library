@@ -12,4 +12,6 @@ router.put("/update/:id", BookController.update);
 
 router.delete("/delete/:id", BookController.delete);
 
+router.get("/details/:id", BookController.details);
+
 module.exports = router;

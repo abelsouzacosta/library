@@ -102,4 +102,20 @@ exports.delete = async (req, res) => {
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
-}
+};
+
+exports.details = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const book = await Book.findByPk(id, {
+      include: ['authors', 'publishers']
+    });
+
+    if (!book)
+      return res.status(404).send({ message: "Livro não encontrado" });
+
+    return res.status(200).json({ book });
+  } catch (err) {
+    return res.status(400).send({ error: `${err}` });
+  }
+};
