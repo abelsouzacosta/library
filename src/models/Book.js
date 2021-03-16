@@ -5,9 +5,17 @@ class Book extends Model {
     super.init({
       title: DataTypes.STRING,
       description: DataTypes.STRING,
-      number_of_pages: DataTypes.INTEGER
+      number_of_pages: DataTypes.INTEGER,
+      publisher_id: DataTypes.INTEGER
     }, {
       sequelize
+    });
+  }
+
+  static associate(models) {
+    this.belongsTo(models.Publisher, {
+      foreignKey: 'id',
+      as: 'publishers'
     });
   }
 }

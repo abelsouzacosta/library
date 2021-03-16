@@ -8,6 +8,13 @@ class Publisher extends Model {
       sequelize
     });
   }
+
+  static associate(models) {
+    this.hasMany(models.Book, {
+      foreignKey: 'publisher_id',
+      as: 'books'
+    });
+  }
 }
 
 module.exports = Publisher;

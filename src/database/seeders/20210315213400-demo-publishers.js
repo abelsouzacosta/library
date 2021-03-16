@@ -27,6 +27,21 @@ module.exports = {
         name: "Intrinseca",
         created_at: new Date(),
         updated_at: new Date()
+      },
+      {
+        name: "Arqueiro",
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: "Vide Editorial",
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
+        name: "Objetiva",
+        created_at: new Date(),
+        updated_at: new Date()
       }
     ], {});
   },

@@ -29,13 +29,13 @@ exports.read = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { title, description, number_of_pages } = req.body;
+  const { title, description, number_of_pages, publisher_id } = req.body;
   try {
-    if (!verifyConstraints(title, description, number_of_pages))
+    if (!verifyConstraints(title, description, number_of_pages, publisher_id))
       return res.status(402).send({ message: "Por favor preencha todos os campos" });
 
     const book = await Book.create({
-      title, description, number_of_pages
+      title, description, number_of_pages, publisher_id
     });
 
     if (!book)

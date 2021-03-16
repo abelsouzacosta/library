@@ -15,4 +15,7 @@ Category.init(sequelize);
 Book.init(sequelize);
 Publisher.init(sequelize);
 
+Publisher.associate(sequelize.models);
+Book.associate(sequelize.models);
+
 module.exports = sequelize;
