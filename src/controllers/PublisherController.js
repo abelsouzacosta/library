@@ -83,3 +83,19 @@ exports.delete = async (req, res) => {
     return res.status(400).send({ error: `${err}` });
   }
 };
+
+exports.details = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const publisher = await Publisher.findByPk(id, {
+      include: 'books'
+    });
+
+    if (!publisher)
+      return res.status(402).send({ message: "Editora não encontrada" });
+
+    return res.status(200).json({ publisher });
+  } catch (err) {
+    return res.status(400).send({ error: `${err}` });
+  }
+};
