@@ -11,6 +11,14 @@ class Author extends Model {
       sequelize
     });
   }
+
+  static associate(models) {
+    this.belongsToMany(models.Book, {
+      foreignKey: 'author_id',
+      through: 'book_author',
+      as: 'books'
+    });
+  }
 }
 
 module.exports = Author;

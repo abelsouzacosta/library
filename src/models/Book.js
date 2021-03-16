@@ -17,6 +17,11 @@ class Book extends Model {
       foreignKey: 'id',
       as: 'publishers'
     });
+    this.belongsToMany(models.Author, {
+      foreignKey: 'book_id',
+      through: 'book_author',
+      as: 'authors'
+    });
   }
 }
 
