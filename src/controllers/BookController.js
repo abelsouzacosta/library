@@ -1,18 +1,34 @@
 const Book = require('../models/Book');
 
 /**
- * Verifica se todas as informações referentes a um livro foram passadas
- * no corpo da requisição
+ * Verifica se os campos estão devidamente assinalados
+ * Retornando um erro caso não estejam
+ *
  * @param {String} title - título do livro
  * @param {String} description - descrição do livro
- * @param {Integer} number_of_pages - número de páginas do livro
+ * @param {Int} number_of_pages - número de páginass
+ * @param {Int} publisher_id - id da Editora
+ * @param {Object} res - Resposta da requisição
  * @returns
  */
-function verifyConstraints(title, description, number_of_pages) {
-  if (title && description && number_of_pages)
-    return true;
-  else
-    return false;
+const verifyConstraints = (title, description, number_of_pages, publisher_id, res) => {
+  if (!(title && description && number_of_pages && publisher_id))
+    return res.status(402).send({ message: "Os campos precisam estar corretamente preenchidos" });
+};
+
+/**
+ * Verifica se ao menos um dos campos foi devidamente preenchido
+ *
+ * @param {String} title - título do livro
+ * @param {String} description - descrição do livro
+ * @param {Int} number_of_pages - número de páginass
+ * @param {Int} publisher_id - id da Editora
+ * @param {Object} res - Resposta da requisição
+ * @returns
+ */
+const checkIfNull = (title, description, number_of_pages, publisher_id, res) => {
+  if (!(title || description || number_of_pages || publisher_id))
+    return res.status(402).send({ message: "Ao menos um campo tem de ser modificado" });
 }
 
 exports.read = async (req, res) => {
@@ -31,8 +47,7 @@ exports.read = async (req, res) => {
 exports.create = async (req, res) => {
   const { title, description, number_of_pages, publisher_id } = req.body;
   try {
-    if (!verifyConstraints(title, description, number_of_pages, publisher_id))
-      return res.status(402).send({ message: "Por favor preencha todos os campos" });
+    verifyConstraints(title, description, number_of_pages, publisher_id, res);
 
     const book = await Book.create({
       title, description, number_of_pages, publisher_id
@@ -49,10 +64,9 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   const { id } = req.params;
-  const { title, description, number_of_pages } = req.body;
+  const { title, description, number_of_pages, publisher_id } = req.body;
   try {
-    if (!(title || description || number_of_pages))
-      return res.status(402).send({ message: "Ao menos um campo é requerido para realizar a operação" });
+    checkIfNull(title, description, number_of_pages, publisher_id, res);
 
     const book = await Book.findByPk(id);
 
@@ -62,6 +76,7 @@ exports.update = async (req, res) => {
     book.title = title;
     book.description = description;
     book.number_of_pages = number_of_pages;
+    book.publisher_id = publisher_id;
 
     if (!book.save())
       return res.status(402).send({ message: "Não foi possível salvar as alterações" });
