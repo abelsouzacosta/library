@@ -68,3 +68,19 @@ exports.delete = async (req, res) => {
     return res.status(400).send({ error: `${err}` });
   }
 };
+
+exports.details = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const category = await Category.findByPk(id, {
+      include: 'books'
+    });
+
+    if (!category)
+      return res.status(404).send({ message: "Categoria não encontrada" });
+
+    return res.status(200).json({ category });
+  } catch (err) {
+    return res.status(400).send({ error: `${err}` });
+  }
+};

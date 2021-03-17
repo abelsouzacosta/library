@@ -22,6 +22,11 @@ class Book extends Model {
       through: 'book_author',
       as: 'authors'
     });
+    this.belongsToMany(models.Category, {
+      foreignKey: 'book_id',
+      through: 'book_category',
+      as: 'categories'
+    });
   }
 }
 
