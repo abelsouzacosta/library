@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
     if (!author)
       return res.status(402).send({ message: "Não foi possível criar o usuário" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -53,7 +53,7 @@ exports.update = async (req, res) => {
     if (!await author.save())
       return res.status(402).send({ message: "Não foi possível atualizar as informações do autor" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -70,7 +70,7 @@ exports.delete = async (req, res) => {
     if (!author.destroy())
       return res.status(402).send({ message: "Autor não foi encontrado" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
