@@ -56,7 +56,7 @@ exports.create = async (req, res) => {
     if (!book)
       return res.status(402).send({ message: "Não foi possível criar o livro" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -81,7 +81,7 @@ exports.update = async (req, res) => {
     if (!book.save())
       return res.status(402).send({ message: "Não foi possível salvar as alterações" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -98,7 +98,7 @@ exports.delete = async (req, res) => {
     if (!await book.destroy())
       return res.status(402).send({ message: "Naõ foi possível excluir o Livro" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
