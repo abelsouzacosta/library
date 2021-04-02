@@ -1,14 +1,12 @@
 const Author = require('../models/Author');
 const { create } = require('../services/AuthorServices/CreateAuthorService');
+const { list } = require('../services/AuthorServices/ListAuthorService');
 
 exports.read = async (req, res) => {
   try {
-    const authors = await Author.findAll({});
+    const authors = await list();
 
-    if (!authors)
-      return res.status(404).send({ message: "Nenhum Autor foi encontrado" });
-
-    return res.status(200).send({ ...authors });
+    return res.status(200).send({ authors });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
