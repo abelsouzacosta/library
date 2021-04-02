@@ -23,7 +23,7 @@ exports.create = async (req, res) => {
     if (!category)
       return res.status(402).send({ message: "Não foi possível criar a categoria" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -46,7 +46,7 @@ exports.update = async (req, res) => {
     if (!await category.save())
       return res.status(401).send({ message: "Não ffoi possível atualizar informações referentes a Categoria" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
@@ -63,7 +63,7 @@ exports.delete = async (req, res) => {
     if (!await category.destroy())
       return res.status(402).send({ message: "Não foi possível excluir a categoria" });
 
-    return res.status(200).send({ success: "success" });
+    return res.status(200).send({ message: "Ok" });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
