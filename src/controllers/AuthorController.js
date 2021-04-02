@@ -1,4 +1,5 @@
 const Author = require('../models/Author');
+const { create } = require('../services/AuthorServices/CreateAuthorService');
 
 exports.read = async (req, res) => {
   try {
@@ -16,14 +17,9 @@ exports.read = async (req, res) => {
 exports.create = async (req, res) => {
   const { name, description, date_of_birth, date_of_death } = req.body;
   try {
-    const author = await Author.create({
-      name, description, date_of_birth, date_of_death
-    });
+    const author = await create(name, description, date_of_birth, date_of_death);
 
-    if (!author)
-      return res.status(402).send({ message: "Não foi possível criar o usuário" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ author });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
