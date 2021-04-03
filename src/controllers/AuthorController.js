@@ -1,4 +1,3 @@
-const Author = require('../models/Author');
 const { create } = require('../services/AuthorServices/CreateAuthorService');
 const { list } = require('../services/AuthorServices/ListAuthorService');
 const { update } = require('../services/AuthorServices/UpdateAuthorService');
