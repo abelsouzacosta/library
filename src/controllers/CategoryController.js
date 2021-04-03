@@ -1,6 +1,7 @@
 const Category = require("../models/Category");
 const { create } = require("../services/CategoryServices/CreateCategoryService");
 const { list } = require("../services/CategoryServices/ListCategoryService");
+const { update } = require("../services/CategoryServices/UpdateCategoryService");
 
 exports.read = async (req, res) => {
   try {
@@ -27,20 +28,12 @@ exports.update = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   try {
-    const category = await Category.findByPk(id);
-
-    if (!category)
-      return res.status(404).send({ message: "Categoria não encontrada" });
-
     if (!name)
       return res.status(402).send({ message: "O campo `name` é obrigatório" });
 
-    category.name = name;
+    const category = await update(id, name);
 
-    if (!await category.save())
-      return res.status(401).send({ message: "Não ffoi possível atualizar informações referentes a Categoria" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ category });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
