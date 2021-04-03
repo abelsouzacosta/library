@@ -3,6 +3,7 @@ const User = require("../models/User");
 const { create } = require("../services/UserServices/CreateUserService");
 const { list } = require("../services/UserServices/ListUserService");
 const { update } = require("../services/UserServices/UpdateUserService");
+const { delete: delete_user } = require('../services/UserServices/DeleteUserService');
 
 exports.read = async (req, res) => {
   try {
@@ -40,13 +41,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const { id } = req.params;
   try {
-    const user = await User.findByPk(id);
-
-    if (!user)
-      return res.status(404).send({ message: "Usuário não encontrado" });
-
-    if (!await user.destroy())
-      return res.status(401).send({ message: "Não foi possível excluir o usuário" });
+    await delete_user(id);
 
     return res.status(200).send({ message: "Ok" });
   } catch (err) {
