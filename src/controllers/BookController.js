@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+const { create } = require('../services/BookServices/CreateBookService');
 const { list } = require('../services/BookServices/ListBookService');
 
 /**
@@ -47,14 +48,9 @@ exports.create = async (req, res) => {
   try {
     verifyConstraints(title, description, number_of_pages, publisher_id, res);
 
-    const book = await Book.create({
-      title, description, number_of_pages, publisher_id
-    });
+    const book = await create(title, description, number_of_pages, publisher_id);
 
-    if (!book)
-      return res.status(402).send({ message: "Não foi possível criar o livro" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ book });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
