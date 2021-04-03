@@ -3,6 +3,7 @@ const { create } = require('../services/AuthorServices/CreateAuthorService');
 const { list } = require('../services/AuthorServices/ListAuthorService');
 const { update } = require('../services/AuthorServices/UpdateAuthorService');
 const { delete: delete_author } = require('../services/AuthorServices/DeleteAuthorService');
+const { show } = require('../services/AuthorServices/ShowAuthorService');
 
 exports.read = async (req, res) => {
   try {
@@ -51,12 +52,7 @@ exports.delete = async (req, res) => {
 exports.details = async (req, res) => {
   const { id } = req.params;
   try {
-    const author = await Author.findByPk(id, {
-      include: 'books'
-    });
-
-    if (!author)
-      return res.status(404).send({ message: "Autor não encontrado" });
+    const author = await show(id);
 
     return res.status(200).json({ author });
   } catch (err) {
