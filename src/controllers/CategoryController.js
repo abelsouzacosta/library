@@ -1,4 +1,5 @@
 const Category = require("../models/Category");
+const { create } = require("../services/CategoryServices/CreateCategoryService");
 const { list } = require("../services/CategoryServices/ListCategoryService");
 
 exports.read = async (req, res) => {
@@ -14,14 +15,9 @@ exports.read = async (req, res) => {
 exports.create = async (req, res) => {
   const { name } = req.body;
   try {
-    const category = await Category.create({
-      name
-    });
+    const category = await create(name);
 
-    if (!category)
-      return res.status(402).send({ message: "Não foi possível criar a categoria" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ category });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
