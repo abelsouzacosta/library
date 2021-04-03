@@ -1,4 +1,5 @@
 const Book = require('../models/Book');
+const { list } = require('../services/BookServices/ListBookService');
 
 /**
  * Verifica se os campos estão devidamente assinalados
@@ -33,12 +34,9 @@ const checkIfNull = (title, description, number_of_pages, publisher_id, res) => 
 
 exports.read = async (req, res) => {
   try {
-    const books = await Book.findAll({});
+    const books = await list();
 
-    if (!books)
-      return res.status(404).send({ message: "Nenhum Livro foi encontrado" });
-
-    return res.status(200).send({ ...books });
+    return res.status(200).send({ books });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
