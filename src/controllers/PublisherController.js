@@ -1,4 +1,5 @@
 const Publisher = require("../models/Publisher");
+const { list } = require("../services/PublisherServices/ListPublisherServices");
 
 /**
  * Verifica se o corpo da requisição contém o campo `name`
@@ -16,12 +17,9 @@ const verifyConstraintName = (name, res) => {
 
 exports.read = async (req, res) => {
   try {
-    const publishers = await Publisher.findAll({});
+    const publishers = await list();
 
-    if (!publishers)
-      return res.status(404).send({ message: "Nenhuma Editora foi encontrada" });
-
-    return res.status(200).send({ ...publishers });
+    return res.status(200).send({ publishers });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
