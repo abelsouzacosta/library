@@ -1,12 +1,10 @@
 const { truncate } = require("../models/User");
 const User = require("../models/User");
+const { list } = require("../services/UserServices/ListUserService");
 
 exports.read = async (req, res) => {
   try {
-    const users = await User.findAll({});
-
-    if (!users)
-      return res.status(404).send({ message: "Nenhum usuário foi encontrado no banco de dados" });
+    const users = await list();
 
     return res.status(200).send({ users });
   } catch (err) {
