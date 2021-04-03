@@ -2,6 +2,7 @@ const Category = require("../models/Category");
 const { create } = require("../services/CategoryServices/CreateCategoryService");
 const { list } = require("../services/CategoryServices/ListCategoryService");
 const { update } = require("../services/CategoryServices/UpdateCategoryService");
+const { delete: delete_category } = require('../services/CategoryServices/DeleteCategoryService');
 
 exports.read = async (req, res) => {
   try {
@@ -42,13 +43,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const { id } = req.params;
   try {
-    const category = await Category.findByPk(id);
-
-    if (!category)
-      return res.status(404).send({ message: "Categoria não encontrada" });
-
-    if (!await category.destroy())
-      return res.status(402).send({ message: "Não foi possível excluir a categoria" });
+    await delete_category(id);
 
     return res.status(200).send({ message: "Ok" });
   } catch (err) {
