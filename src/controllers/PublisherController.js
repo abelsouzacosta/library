@@ -1,4 +1,5 @@
 const Publisher = require("../models/Publisher");
+const { create } = require("../services/PublisherServices/CreatePublisherServices");
 const { list } = require("../services/PublisherServices/ListPublisherServices");
 
 /**
@@ -30,14 +31,9 @@ exports.create = async (req, res) => {
   try {
     verifyConstraintName(name, res);
 
-    const publisher = await Publisher.create({
-      name
-    });
+    const publisher = await create(name);
 
-    if (!publisher)
-      return res.status(402).send({ message: "Não foi possível criar a Editora" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ publisher });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
