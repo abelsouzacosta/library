@@ -1,4 +1,3 @@
-const Category = require("../models/Category");
 const { create } = require("../services/CategoryServices/CreateCategoryService");
 const { list } = require("../services/CategoryServices/ListCategoryService");
 const { update } = require("../services/CategoryServices/UpdateCategoryService");
