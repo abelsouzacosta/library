@@ -1,8 +1,8 @@
-const Publisher = require("../models/Publisher");
 const { create } = require("../services/PublisherServices/CreatePublisherServices");
 const { list } = require("../services/PublisherServices/ListPublisherServices");
 const { update } = require("../services/PublisherServices/UpdatePublisherServices");
 const { delete: delete_publisher } = require('../services/PublisherServices/DeletePublisherServices');
+const { show } = require("../services/PublisherServices/ShowPublisherServices");
 
 /**
  * Verifica se o corpo da requisição contém o campo `name`
@@ -67,12 +67,7 @@ exports.delete = async (req, res) => {
 exports.details = async (req, res) => {
   const { id } = req.params;
   try {
-    const publisher = await Publisher.findByPk(id, {
-      include: 'books'
-    });
-
-    if (!publisher)
-      return res.status(402).send({ message: "Editora não encontrada" });
+    const publisher = await show(id);
 
     return res.status(200).json({ publisher });
   } catch (err) {
