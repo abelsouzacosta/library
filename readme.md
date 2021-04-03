@@ -1,21 +1,24 @@
 # API de Biblioteca
+
 **Essa é uma API com autenticação que lida com livros, autores, categorias e editoras.**
 
 ## Tecnologias utilizadas
+
 Para a construção dessa API foram utilizadas as seguintes tecnologias:
 
-*	[Express](http://expressjs.com/)
-*	[Sequelize](https://sequelize.org/)
-*	[JSON web tokens](https://jwt.io/)
-*	[Postgres](https://www.postgresql.org/)
+- [Express](http://expressjs.com/)
+- [Sequelize](https://sequelize.org/)
+- [JSON web tokens](https://jwt.io/)
+- [Postgres](https://www.postgresql.org/)
 
 ## Executando a API
+
 Para executar a API você precisa das seguintes ferramentas:
 
-* Git
-* Insomnia
-* PostgresSQL 
-* yarn ou npm
+- Git
+- Insomnia
+- PostgresSQL
+- yarn ou npm
 
 O primeiro passo para executar a API é fazer o clone do repositório:
 
@@ -34,22 +37,22 @@ Na construção da API foi utilizada a biblioteca npm [dotenv](https://www.npmjs
 
 ```
 # Porta da aplicação
-PORT = 
+PORT =
 
 # Nome do banco de dados
-DB_NAME = 
+DB_NAME =
 
 # Host do banco de dados
-DB_HOST = 
+DB_HOST =
 
 # Username do banco de dados
-DB_USERNAME = docker
+DB_USERNAME =
 
 # Senha do banco de dados
-DB_PASSWORD = 
+DB_PASSWORD =
 
 # Hash do JWT
-SECRET = 
+SECRET =
 ```
 
 Depois de definidas as variáveis de ambiente a API está pronta para ser executada, com os seguintes comandos:
@@ -68,8 +71,7 @@ yarn sequelize db:seed:all ou npx sequelize db:seed:all
 yarn dev ou npm run dev
 ```
 
-A aplicação será executada na porta especificada na variável `PORT` dentro do arquivo `.env`.  Clicando no botão abaixo é possível baixar o ambiente do `Insomnia` com todas as suas respectivas rotas e variáveis definidas:
-
+A aplicação será executada na porta especificada na variável `PORT` dentro do arquivo `.env`. Clicando no botão abaixo é possível baixar o ambiente do `Insomnia` com todas as suas respectivas rotas e variáveis definidas:
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Library&uri=https%3A%2F%2Fraw.githubusercontent.com%2Fabelsouzacosta%2Flibrary-content%2Fmaster%2Fexport.json%3Ftoken%3DAHJQ6XBR6WOR4XEJ4X2GS43AKF6QQ)
 
@@ -86,15 +88,19 @@ Essa seção trata de como lidamos com a API e seus respectivos _endpoints_.
 	"password": "senha123"
 }
 ```
+
 Se tudo ocorrer corretamente o retorno da requisição será a mensagem abaixo:
+
 ```
 {
 	message: "Ok"
 }
 ```
+
 Depois da criação do usuário é preciso fazer a autenticação na aplicação.
 
 ### Autenticação
+
 A autenticação é feita com o `email` e `senha` do usuário, no endpoint `Authentication Sign Up` o corpo da requisição dve ter o seguinte formato:
 
 ```
@@ -102,18 +108,20 @@ A autenticação é feita com o `email` e `senha` do usuário, no endpoint `Auth
 	"email": "dev@example.com",
 	"password": "123456"
 }
-``` 
+```
+
 A resposta da requisição será um token jwt que validará o usuário para que ele possa usar os demais endpoints da aplicação
 
 ```
 "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjE1OTIyODg0LCJleHAiOjE2MTYwMDkyODR9.Od36XZNzdv2KNx2DLYQUc9GrQOsbVGWlf8pwu2EO7eI"
 ```
+
 Os campos de autenticação da requisição serão preenchidos automaticamente, uma vez que o ambiente do Insomnia disponibilizado acima já possui tal configuração.
 
 #### Endpoints
 
 1. Listagem (GET)
-Os endpoints de listagem carregam o nome List, eles retornam todas as instâncias cadastradas dentro do banco de dados da aplicação nelas não é preciso passar nenhum corpo, podemos usar a listagem de livros (Books) como exemplo, ao fazer a requisição teremos mais ou menos a seguinte reposta:
+   Os endpoints de listagem carregam o nome List, eles retornam todas as instâncias cadastradas dentro do banco de dados da aplicação nelas não é preciso passar nenhum corpo, podemos usar a listagem de livros (Books) como exemplo, ao fazer a requisição teremos mais ou menos a seguinte reposta:
 
 ```
 {
@@ -137,8 +145,9 @@ Os endpoints de listagem carregam o nome List, eles retornam todas as instância
   },
 }
 ```
+
 2. Criação (POST)
-Nesse tipo de requisição é necessário passar no corpo da requisição as informações referentes ao respectivo domínio, por exemplo, na criação de um autor (Author), temos de passar o nome (name), uma descrição (description) e e uma data de nascimento (date_of_birth), a data de morte (date_of_death) é opcional, como podemos ver abaixo:
+   Nesse tipo de requisição é necessário passar no corpo da requisição as informações referentes ao respectivo domínio, por exemplo, na criação de um autor (Author), temos de passar o nome (name), uma descrição (description) e e uma data de nascimento (date_of_birth), a data de morte (date_of_death) é opcional, como podemos ver abaixo:
 
 ```
 {
@@ -149,10 +158,10 @@ Nesse tipo de requisição é necessário passar no corpo da requisição as inf
 ```
 
 > Como saber quais campos devem ser passados dentro de uma requisição de criação?
-	> Os campos necessários para a criação de um domínio podem ser encontrados dentro das migrations ou dentro dos models, respectivamente localizados dentro de `src/database/migrations` e `src/models`, dentro do `model/Category.js`, por exemplo, temos o campo `name:  DataTypes.STRING`, isso significa que para a criação de uma categoria é preciso somente o nome da categoria.
+> Os campos necessários para a criação de um domínio podem ser encontrados dentro das migrations ou dentro dos models, respectivamente localizados dentro de `src/database/migrations` e `src/models`, dentro do `model/Category.js`, por exemplo, temos o campo `name: DataTypes.STRING`, isso significa que para a criação de uma categoria é preciso somente o nome da categoria.
 
 3. Atualização (PUT)
-Em requisições de atualização não é preciso passar todos os campos que compõem o domínio, apenas o que se deseja modificar. O `id` da instância que se deseja ser atualizada deve ser passada pela url da requisição, por exemplo vamos usar o domínio editora (Publisher), vamos modificar o nome de uma editora:
+   Em requisições de atualização não é preciso passar todos os campos que compõem o domínio, apenas o que se deseja modificar. O `id` da instância que se deseja ser atualizada deve ser passada pela url da requisição, por exemplo vamos usar o domínio editora (Publisher), vamos modificar o nome de uma editora:
 
 ```
 ex:
@@ -164,12 +173,12 @@ ex:
 ```
 
 4. Exclusão (DELETE)
-Numa deleção também não é preciso passar um corpo de requisição mas é preciso passar o `id` da instância que desejamos ser excluída, por exemplo, na exclusão de uma categoria fazemos a requisição da seguinte forma:
+   Numa deleção também não é preciso passar um corpo de requisição mas é preciso passar o `id` da instância que desejamos ser excluída, por exemplo, na exclusão de uma categoria fazemos a requisição da seguinte forma:
 
 `http://localhost:3030/category/delete/8`
 
 5. Associando (POST)
-Temos duas relações do tipo n:m dentro da aplicação e é preciso fazer a relação entre os dois domínios, como por exemplo, podemos associar o livro com uma categoria, fazemos isso dentro do recurso de `Category`, na rota de associação passando no corpo o `id` das respectivas instâncias:
+   Temos duas relações do tipo n:m dentro da aplicação e é preciso fazer a relação entre os dois domínios, como por exemplo, podemos associar o livro com uma categoria, fazemos isso dentro do recurso de `Category`, na rota de associação passando no corpo o `id` das respectivas instâncias:
 
 ```
 # http://localhost:3030/category/associate
@@ -177,9 +186,10 @@ Temos duas relações do tipo n:m dentro da aplicação e é preciso fazer a rel
 	"book_id": 3,
 	"category_id": 2
 }
-``` 
+```
+
 6. Detalhar (POST)
-Não exige um corpo, requer o `id` da instância seja passada na url, ela retorna todos os detalhes de uma determinada instância, por exemplo é possível trazer todas as informações de uma instância, bem como as instâncias com que ela se relaciona, abaixo vemos um exemplo de um autor com os livros publicados por ele:
+   Não exige um corpo, requer o `id` da instância seja passada na url, ela retorna todos os detalhes de uma determinada instância, por exemplo é possível trazer todas as informações de uma instância, bem como as instâncias com que ela se relaciona, abaixo vemos um exemplo de um autor com os livros publicados por ele:
 
 ```
 # http://localhost:3030/author/details/3
