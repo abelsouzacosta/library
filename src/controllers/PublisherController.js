@@ -1,6 +1,7 @@
 const Publisher = require("../models/Publisher");
 const { create } = require("../services/PublisherServices/CreatePublisherServices");
 const { list } = require("../services/PublisherServices/ListPublisherServices");
+const { update } = require("../services/PublisherServices/UpdatePublisherServices");
 
 /**
  * Verifica se o corpo da requisição contém o campo `name`
@@ -43,19 +44,9 @@ exports.update = async (req, res) => {
   const { id } = req.params;
   const { name } = req.body;
   try {
-    const publisher = await Publisher.findByPk(id);
+    const publisher = await update(id, name);
 
-    if (!publisher)
-      return res.status(404).send({ message: "Editora não encontrada" });
-
-    verifyConstraintName(name, res);
-
-    publisher.name = name;
-
-    if (!await publisher.save())
-      return res.status(402).send({ message: "Não foi possivel alterar as informações da Editora" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ publisher });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
