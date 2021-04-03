@@ -1,13 +1,11 @@
 const Category = require("../models/Category");
+const { list } = require("../services/CategoryServices/ListCategoryService");
 
 exports.read = async (req, res) => {
   try {
-    const categories = await Category.findAll({});
+    const categories = await list();
 
-    if (!categories)
-      return res.status(404).send({ message: "Nenhuma categoria foi encontrada" });
-
-    return res.status(200).send({ ...categories });
+    return res.status(200).send({ categories });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
