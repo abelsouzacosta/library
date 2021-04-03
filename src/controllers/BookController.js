@@ -1,6 +1,7 @@
 const Book = require('../models/Book');
 const { create } = require('../services/BookServices/CreateBookService');
 const { list } = require('../services/BookServices/ListBookService');
+const { update } = require('../services/BookServices/UpdateBookService');
 
 /**
  * Verifica se os campos estão devidamente assinalados
@@ -62,20 +63,9 @@ exports.update = async (req, res) => {
   try {
     checkIfNull(title, description, number_of_pages, publisher_id, res);
 
-    const book = await Book.findByPk(id);
+    const book = await update(id, title, description, number_of_pages, publisher_id);
 
-    if (!book)
-      return res.status(404).send({ message: "Livro não encontrado" });
-
-    book.title = title;
-    book.description = description;
-    book.number_of_pages = number_of_pages;
-    book.publisher_id = publisher_id;
-
-    if (!book.save())
-      return res.status(402).send({ message: "Não foi possível salvar as alterações" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ book });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
