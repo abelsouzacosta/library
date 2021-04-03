@@ -1,6 +1,7 @@
 const Author = require('../models/Author');
 const { create } = require('../services/AuthorServices/CreateAuthorService');
 const { list } = require('../services/AuthorServices/ListAuthorService');
+const { update } = require('../services/AuthorServices/UpdateAuthorService');
 
 exports.read = async (req, res) => {
   try {
@@ -27,27 +28,9 @@ exports.update = async (req, res) => {
   const { id } = req.params;
   const { name, description, date_of_birth, date_of_death } = req.body;
   try {
-    const author = await Author.findByPk(id);
+    const author = await update(id, name, description, date_of_birth, date_of_death);
 
-    if (!author)
-      return res.status(404).send({ message: "Autor não encontrado" });
-
-    if (name)
-      author.name = name;
-
-    if (description)
-      author.description = description;
-
-    if (date_of_birth)
-      author.date_of_birth = date_of_birth;
-
-    if (date_of_death)
-      author.date_of_death = date_of_death;
-
-    if (!await author.save())
-      return res.status(402).send({ message: "Não foi possível atualizar as informações do autor" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ author });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
