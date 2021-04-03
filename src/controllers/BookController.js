@@ -1,4 +1,3 @@
-const Book = require('../models/Book');
 const { create } = require('../services/BookServices/CreateBookService');
 const { list } = require('../services/BookServices/ListBookService');
 const { update } = require('../services/BookServices/UpdateBookService');
