@@ -1,5 +1,3 @@
-const { truncate } = require("../models/User");
-const User = require("../models/User");
 const { create } = require("../services/UserServices/CreateUserService");
 const { list } = require("../services/UserServices/ListUserService");
 const { update } = require("../services/UserServices/UpdateUserService");
