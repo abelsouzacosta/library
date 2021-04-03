@@ -2,6 +2,7 @@ const { truncate } = require("../models/User");
 const User = require("../models/User");
 const { create } = require("../services/UserServices/CreateUserService");
 const { list } = require("../services/UserServices/ListUserService");
+const { update } = require("../services/UserServices/UpdateUserService");
 
 exports.read = async (req, res) => {
   try {
@@ -28,24 +29,9 @@ exports.update = async (req, res) => {
   const { id } = req.params;
   const { name, email, password } = req.body;
   try {
-    const user = await User.findByPk(id);
+    const user = await update(id, name, email, password);
 
-    if (!user)
-      return res.status(404).send({ message: "Usuário não encontrado" });
-
-    if (name)
-      user.name = name;
-
-    if (email)
-      user.email = email;
-
-    if (password)
-      user.password = password;
-
-    if (!await user.save())
-      return res.status(401).send({ message: "Não foi possível salvar as atualizações" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ user });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
