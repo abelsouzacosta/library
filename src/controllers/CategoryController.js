@@ -3,6 +3,7 @@ const { create } = require("../services/CategoryServices/CreateCategoryService")
 const { list } = require("../services/CategoryServices/ListCategoryService");
 const { update } = require("../services/CategoryServices/UpdateCategoryService");
 const { delete: delete_category } = require('../services/CategoryServices/DeleteCategoryService');
+const { show } = require("../services/CategoryServices/ShowCategoryService");
 
 exports.read = async (req, res) => {
   try {
@@ -54,12 +55,7 @@ exports.delete = async (req, res) => {
 exports.details = async (req, res) => {
   const { id } = req.params;
   try {
-    const category = await Category.findByPk(id, {
-      include: 'books'
-    });
-
-    if (!category)
-      return res.status(404).send({ message: "Categoria não encontrada" });
+    const category = await show(id);
 
     return res.status(200).json({ category });
   } catch (err) {
