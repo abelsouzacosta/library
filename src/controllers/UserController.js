@@ -1,5 +1,6 @@
 const { truncate } = require("../models/User");
 const User = require("../models/User");
+const { create } = require("../services/UserServices/CreateUserService");
 const { list } = require("../services/UserServices/ListUserService");
 
 exports.read = async (req, res) => {
@@ -15,14 +16,9 @@ exports.read = async (req, res) => {
 exports.create = async (req, res) => {
   const { name, email, password } = req.body
   try {
-    const user = await User.create({
-      name, email, password
-    });
+    const user = await create(name, email, password);
 
-    if (!user)
-      return res.status(401).send({ message: "Não foi possível criar o usuário" });
-
-    return res.status(200).send({ message: "Ok" });
+    return res.status(200).send({ user });
   } catch (err) {
     return res.status(400).send({ error: `${err}` });
   }
