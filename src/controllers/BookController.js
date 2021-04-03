@@ -2,6 +2,8 @@ const Book = require('../models/Book');
 const { create } = require('../services/BookServices/CreateBookService');
 const { list } = require('../services/BookServices/ListBookService');
 const { update } = require('../services/BookServices/UpdateBookService');
+const { delete: delete_book } = require('../services/BookServices/DeleteBookService');
+const { show } = require('../services/BookServices/ShowBookService');
 
 /**
  * Verifica se os campos estão devidamente assinalados
@@ -74,13 +76,7 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   const { id } = req.params;
   try {
-    const book = await Book.findByPk(id);
-
-    if (!book)
-      return res.status(404).send({ message: "Livro não encontrado" });
-
-    if (!await book.destroy())
-      return res.status(402).send({ message: "Naõ foi possível excluir o Livro" });
+    await delete_book(id);
 
     return res.status(200).send({ message: "Ok" });
   } catch (err) {
@@ -91,12 +87,7 @@ exports.delete = async (req, res) => {
 exports.details = async (req, res) => {
   const { id } = req.params;
   try {
-    const book = await Book.findByPk(id, {
-      include: ['authors', 'publishers']
-    });
-
-    if (!book)
-      return res.status(404).send({ message: "Livro não encontrado" });
+    const book = await show(id);
 
     return res.status(200).json({ book });
   } catch (err) {
